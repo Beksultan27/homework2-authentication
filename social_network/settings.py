@@ -29,7 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'social_django',
+    'social-auth-app-django',
     'sorl.thumbnail',
 ]
 
