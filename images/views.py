@@ -8,6 +8,7 @@ from django.views.decorators.http import require_POST
 from common.decorators import ajax_required
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from actions.utils import create_action
 
 from .forms import ImageCreateForm
 
@@ -24,6 +25,7 @@ def image_create(request):
             # Добавляем пользователя к созданному объекту.
             new_item.user = request.user
             new_item.save()
+            create_action(request.user, 'bookmarked image', new_item)
             messages.success(request, 'Image added successfully')
             # Перенаправляем пользователя на страницу сохраненного изображения.
             return redirect(new_item.get_absolute_url())
@@ -43,12 +45,13 @@ def image_detail(request, id, slug):
 @require_POST
 def image_like(request):
     image_id = request.POST.get('id')
-    action = request.POST.get('action')
+    action = request.POST.get('actions')
     if image_id and action:
         try:
             image = Image.objects.get(id=image_id)
             if action == 'like':
                 image.users_like.add(request.user)
+                create_action(request.user, 'likes', image)
             else:
                 image.users_like.remove(request.user)
             return JsonResponse({'status': 'ok'})
@@ -75,7 +78,7 @@ def image_list(request):
         # Если номер страницы больше, чем их количество, возвращаем последнюю.
         images = paginator.page(paginator.num_pages)
     if request.is_ajax():
-        return render(request,'images/image/list_ajax.html', {'section': 'images', 'images': images})
-    return render(request,'images/image/list.html', {'section': 'images', 'images': images})
+        return render(request, 'images/image/list_ajax.html', {'section': 'images', 'images': images})
+    return render(request, 'images/image/list.html', {'section': 'images', 'images': images})
 
 

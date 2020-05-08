@@ -1,4 +1,5 @@
 import os
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,6 +22,7 @@ ALLOWED_HOSTS = ['mysite.com', '64.227.121.199', 'localhost', '127.0.0.1', '1ba7
 INSTALLED_APPS = [
     'account.apps.AccountConfig',
     'images.apps.ImagesConfig',
+    'actions.apps.ActionsConfig',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -29,7 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'social-auth-app-django',
+    'social_django',
     'sorl.thumbnail',
 ]
 
@@ -137,4 +139,10 @@ AUTHENTICATION_BACKENDS = [
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1043527256767-arhp1boi0rhqcg95a0eb993e5jp7gus8.apps.googleusercontent.com' # Google Consumer Key
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'WTjijYQjOsVRY_bPRvQgvwX-' # Google Consumer Secret
+
+ABSOLUTE_URL_OVERRIDES = {
+    'auth.user': lambda u: reverse_lazy('user_detail', args=[u.username])
+}
+
+THUMBNAIL_DEBUG = True
 

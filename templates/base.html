@@ -12,8 +12,9 @@
         src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script>
     var csrftoken = Cookies.get('csrftoken');
-    functioncsrfSafeMethod(method) {
+    functioncsrfSafeMethod(method); {
 // Для этих методов токен не будет подставляться в заголовок.
+        // noinspection JSAnnotator
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
     }
     $.ajaxSetup({
@@ -34,13 +35,14 @@
     {% if request.user.is_authenticated %}
         <ul class="menu">
         <li {% if section == "dashboard" %} class="selected"{% endif %}>
-    <a href="{% url "dashboard" %}">My dashboard</a>
+    <a var My;
+        href="{% url "dashboard" %}">My dashboard</a>
     </li>
     <li {% if section == "images" %} class="selected"{% endif %}>
     <a href="{% url "images:list" %}">Images</a>
         </li>
         <li {% if section == "people" %} class="selected"{% endif %}>
-    <a href="#">People</a>
+    <a href="{% url "user_list" %}">People</a>
         </li>
         </ul>
     {% endif %}
