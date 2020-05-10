@@ -24,17 +24,17 @@ def user_login(request):
             user = authenticate(request,
                                 username=cd['username'],
                                 password=cd['password'])
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-                return HttpResponse('Authenticated successfully')
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponse('Authenticated successfully')
+                else:
+                    return HttpResponse('Disabled account')
             else:
-                return HttpResponse('Disabled account')
+                return HttpResponse('Invalid login')
         else:
-            return HttpResponse('Invalid login')
-    else:
-        form = LoginForm()
-    return render(request, 'registration/login.html', {'form': form})
+            form = LoginForm()
+        return render(request, 'registration/login.html', {'form': form})
 
 
 @login_required
@@ -93,14 +93,14 @@ def edit(request):
 def user_list(request):
     users = User.objects.filter(is_active=True)
     paginator = Paginator(users, 10)
-    return render(request, 'user/list.html', {'section': 'people', 'users': users, 'paginator': paginator})
+    return render(request, 'account/user/list.html', {'section': 'people', 'users': users, 'paginator': paginator})
     #  I DONT REALLY KNOW IF PAGINAToR WORKS
 
 
 @login_required
 def user_detail(request, username):
     user = get_object_or_404(User, username=username, is_active=True)
-    return render(request, 'user/detail.html', {'section': 'people', 'user': user})
+    return render(request, 'account/user/detail.html', {'section': 'people', 'user': user})
 
 
 @ajax_required
