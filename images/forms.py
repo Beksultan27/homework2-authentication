@@ -12,7 +12,7 @@ class ImageCreateForm(forms.ModelForm):
         fields = ('title', 'url', 'description')
         widgets = {'url': forms.HiddenInput}
 
-    def clean_url(self):
+    def clean_url(self):  # прверка расширения изображения
         url = self.cleaned_data['url']
         valid_extensions = ['jpg', 'jpeg']
         extension = url.rsplit('.', 1)[1].lower()
@@ -24,7 +24,7 @@ class ImageCreateForm(forms.ModelForm):
         image = super(ImageCreateForm, self).save(commit=False)
         image_url = self.cleaned_data['url']
         image_name = '{}.{}'.format(slugify(image.title), image_url.rsplit('.', 1)[1].lower())
-        # Скачиваем изображение по указанному адресу.
+        # скачиваем изображение по указанному адресу.
         response = request.urlopen(image_url)
         image.image.save(image_name, ContentFile(response.read()), save=False)
 
