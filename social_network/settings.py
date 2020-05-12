@@ -132,15 +132,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'account.authentication.EmailAuthBackend',
-    # 'social_core.backends.facebook.FacebookOAuth2',
     'social_core.backends.google.GoogleOAuth2',
 ]
-
-# SOCIAL_AUTH_FACEBOOK_KEY = '2513622258902710'  # Facebook App ID
-# SOCIAL_AUTH_FACEBOOK_SECRET = 'bf409d493be7c1b23c73d333fc6bab54'  # Facebook App Secret
-# SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
-# SECURE_SSL_REDIRECT=True
-# SECURE_HSTS_INCLUDE_SUBDOMAINS=True
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1043527256767-arhp1boi0rhqcg95a0eb993e5jp7gus8.apps.googleusercontent.com' # Google Consumer Key
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'WTjijYQjOsVRY_bPRvQgvwX-' # Google Consumer Secret
